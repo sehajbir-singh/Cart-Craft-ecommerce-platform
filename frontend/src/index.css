@@ -12,9 +12,16 @@ a.active hr {
     font-family: Outfit;
 }
 
+.toastBody {
+  font-family: "Atlas Grotesk Web", Arial, Helvetica, sans-serif;
+  font-size: 1.75rem;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
+
+
 
 
 .prata-regular {
