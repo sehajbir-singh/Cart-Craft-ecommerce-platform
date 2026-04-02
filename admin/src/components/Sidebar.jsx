@@ -7,15 +7,15 @@ const Sidebar = () => {
     <div className="w-[18%] min-h-screen border-gray-300 border-r">
       <div className="flex flex-col gap-4 pt-6 pl-[20%] text-[15px]">
         <NavLink
-          className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-l"
+          className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-l hover:bg-pink-50 transition-all"
           to="/add"
         >
-          <img lassName="w-5 h-5" src={assets.add_icon} alt="" />
+          <img className="w-5 h-5" src={assets.add_icon} alt="" />
           <p className="hidden md:block"> Add Items</p>
         </NavLink>
 
         <NavLink
-          className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-l"
+          className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-l hover:bg-pink-50 transition-all"
           to="/list"
         >
           <img className="w-5 h-5" src={assets.order_icon} alt="" />
@@ -23,7 +23,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-l"
+          className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-l hover:bg-pink-50 transition-all"
           to="/orders"
         >
           <img className="w-5 h-5" src={assets.order_icon} alt="" />
