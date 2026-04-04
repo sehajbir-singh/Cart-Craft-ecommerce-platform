@@ -1,9 +1,9 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import Add from "../pages/Add";
-import List from "../pages/List";
-import Orders from "../pages/Orders";
+import Add from "./pages/Add";
+import List from "./pages/List";
+import Orders from "./pages/Orders";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./components/Login";
@@ -32,7 +32,7 @@ const App = () => {
         <Login setToken={setToken}/>
       ) : (
         <>
-          <Navbar />
+          <Navbar setToken={setToken}/>
 
           <hr className="border-0.1" />
 
