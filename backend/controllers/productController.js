@@ -27,6 +27,7 @@ const addProduct = async (req, res) => {
       sizes,
       bestseller,
     );
+  
     console.log(image1, image2, image3, image4);
 
     const images = [image1, image2, image3, image4].filter(

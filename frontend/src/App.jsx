@@ -15,6 +15,8 @@ import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast,  Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+
 const App = () => {
   return (
     <>

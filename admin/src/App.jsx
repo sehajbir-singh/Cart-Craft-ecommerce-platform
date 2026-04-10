@@ -7,7 +7,7 @@ import Orders from "./pages/Orders";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./components/Login";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer , Bounce} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -27,7 +27,18 @@ const App = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <ToastContainer />
+      <ToastContainer  position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={true}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+                bodyClassName="toastBody" />
       {token === "" ? (
         <Login setToken={setToken}/>
       ) : (
