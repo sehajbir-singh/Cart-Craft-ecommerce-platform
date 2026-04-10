@@ -41,6 +41,8 @@ const addProduct = async (req, res) => {
         return result.secure_url;
       }),
     );
+    
+    console.log(imagesUrl)
 
     const productData = {
       name,
