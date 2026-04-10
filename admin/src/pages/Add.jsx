@@ -69,12 +69,13 @@ const Add = ({token}) => {
           <p className="mb-2">Upload Image</p>
           <div className="flex gap-2">
             <label htmlFor="image1">
+              
               <img
                 className="w-20"
                 src={!image1 ? assets.upload_area : URL.createObjectURL(image1)}
                 alt=""
               />
-
+                
               <input
                 onChange={(e) => setImage1(e.target.files[0])}
                 type="file"
