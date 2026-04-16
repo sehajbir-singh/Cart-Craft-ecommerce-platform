@@ -3,7 +3,9 @@ import { assets } from "../assets/assets";
 import { Link, Links, NavLink } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { toast } from "react-toastify";
+
 const Navbar = () => {
+  
   const [visible, setVisible] = useState(false);
   const {setShowSearch, getCartCount, token, setToken, setCartItems, navigate} = useContext(ShopContext);
 

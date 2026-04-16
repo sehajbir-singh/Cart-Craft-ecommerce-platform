@@ -4,12 +4,13 @@ import CartTotal from "../components/CartTotal";
 import { assets } from "../assets/assets";
 import { ShopContext } from "../context/ShopContext";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import Orders from "./Orders";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
-  const navigate = useNavigate();
+  const {navigate, backendurl, token, cartItems, setCartIems, getCartAmount, delivery_fee, } = useContext(ShopContext)
+ 
+
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -24,16 +25,22 @@ const PlaceOrder = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    // const { name, value } = e.target;
+    const name = e.target.name;
+    const value = e.target.value;
+
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = (e) => {
+    e.preventDefault
 
     console.log("clicked");
+
     const {
       firstName,
       lastName,
@@ -73,6 +80,7 @@ const PlaceOrder = () => {
         </div>
         <div className="flex gap-3">
           <input
+          required
             type="text"
             name="firstName"
             className="border 
@@ -82,6 +90,7 @@ const PlaceOrder = () => {
             placeholder="First Name"
           />
           <input
+           required
             type="text"
             name="lastName"
             value={formData.lastName}
@@ -90,7 +99,8 @@ const PlaceOrder = () => {
             placeholder="Last Name"
           />
         </div>
-        <input
+        <input 
+        required
           type="email"
           name="email"
           value={formData.email}
@@ -99,6 +109,7 @@ const PlaceOrder = () => {
           placeholder="Email Address"
         />
         <input
+        required
           type="text"
           name="street"
           value={formData.street}
@@ -108,6 +119,7 @@ const PlaceOrder = () => {
         />
         <div className="flex gap-3">
           <input
+          required
             type="text"
             name="city"
             value={formData.city}
@@ -116,6 +128,7 @@ const PlaceOrder = () => {
             placeholder="City"
           />
           <input
+          required
             type="text"
             name="state"
             value={formData.state}
@@ -126,6 +139,7 @@ const PlaceOrder = () => {
         </div>
         <div className="flex gap-3">
           <input
+          required
             type="number"
             name="zipcode"
             value={formData.zipcode}
@@ -134,6 +148,7 @@ const PlaceOrder = () => {
             placeholder="Zipcode"
           />
           <input
+          required
             type="text"
             name="country"
             value={formData.country}
@@ -143,6 +158,7 @@ const PlaceOrder = () => {
           />
         </div>
         <input
+        required
           type="number"
           name="phone"
           value={formData.phone}
