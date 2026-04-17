@@ -5,12 +5,20 @@ import { assets } from "../assets/assets";
 import { ShopContext } from "../context/ShopContext";
 import { toast } from "react-toastify";
 import Orders from "./Orders";
+import axios from "axios";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
-  const {navigate, backendurl, token, cartItems, setCartIems, getCartAmount, delivery_fee, } = useContext(ShopContext)
- 
-
+  const {
+    navigate,
+    products,
+    backendUrl,
+    token,
+    cartItems,
+    setCartItems,
+    getCartAmount,
+    delivery_fee,
+  } = useContext(ShopContext);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -29,15 +37,60 @@ const PlaceOrder = () => {
     const name = e.target.name;
     const value = e.target.value;
 
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handlePlaceOrder = (e) => {
-    e.preventDefault
+  const handlePlaceOrder = async (e) => {
+    e.preventDefault();
+
+    try {
+      let orderItems = [];
+
+      for (const items in cartItems) {
+        console.log(items);
+        for (const item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+            const itemInfo = structuredClone(
+              products.find((product) => product._id === items),
+            );
+            console.log(itemInfo);
+            itemInfo.size = item;
+            itemInfo.quantity = cartItems[items][item];
+
+            orderItems.push(itemInfo);
+          }
+        }
+      }
+
+      switch (method) {
+        case "cod":
+          const response = await axios.post(
+            backendUrl + "/api/order/place",
+            {
+              items: orderItems,
+              amount: getCartAmount() + delivery_fee,
+              address: formData,
+            },
+            { headers: { token } },
+          );
+
+          if (response.data.success) {
+            setCartItems({});
+            navigate("/orders");
+            toast.success(response.data.message);
+          } else {
+            toast.error(response.data.message);
+          }
+          break;
+
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
 
     console.log("clicked");
 
@@ -64,12 +117,8 @@ const PlaceOrder = () => {
     if (!phone.trim()) return toast.error("Please enter Phone Number");
     if (!method) return toast.error("Please select a payment method");
 
-    toast.success("Order placed successfully!");
     navigate("/orders");
-    
   };
-
-  
 
   return (
     <div className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t ">
@@ -80,7 +129,7 @@ const PlaceOrder = () => {
         </div>
         <div className="flex gap-3">
           <input
-          required
+            required
             type="text"
             name="firstName"
             className="border 
@@ -90,7 +139,7 @@ const PlaceOrder = () => {
             placeholder="First Name"
           />
           <input
-           required
+            required
             type="text"
             name="lastName"
             value={formData.lastName}
@@ -99,8 +148,8 @@ const PlaceOrder = () => {
             placeholder="Last Name"
           />
         </div>
-        <input 
-        required
+        <input
+          required
           type="email"
           name="email"
           value={formData.email}
@@ -109,7 +158,7 @@ const PlaceOrder = () => {
           placeholder="Email Address"
         />
         <input
-        required
+          required
           type="text"
           name="street"
           value={formData.street}
@@ -119,7 +168,7 @@ const PlaceOrder = () => {
         />
         <div className="flex gap-3">
           <input
-          required
+            required
             type="text"
             name="city"
             value={formData.city}
@@ -128,7 +177,7 @@ const PlaceOrder = () => {
             placeholder="City"
           />
           <input
-          required
+            required
             type="text"
             name="state"
             value={formData.state}
@@ -139,7 +188,7 @@ const PlaceOrder = () => {
         </div>
         <div className="flex gap-3">
           <input
-          required
+            required
             type="number"
             name="zipcode"
             value={formData.zipcode}
@@ -148,7 +197,7 @@ const PlaceOrder = () => {
             placeholder="Zipcode"
           />
           <input
-          required
+            required
             type="text"
             name="country"
             value={formData.country}
@@ -158,7 +207,7 @@ const PlaceOrder = () => {
           />
         </div>
         <input
-        required
+          required
           type="number"
           name="phone"
           value={formData.phone}
