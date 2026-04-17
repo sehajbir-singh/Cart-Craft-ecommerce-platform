@@ -18,7 +18,7 @@ const placeOrder = async (req, res) => {
   };
 
   const newOrder = orderModel(orderData)
-  newOrder.save()
+  await newOrder.save()
 
   await userModel.findByIdAndUpdate(userId, {cartData:{}})
 
@@ -37,9 +37,19 @@ const placeOrderStripe = async (req, res) => {};
 const placeOrderRazorpay = async (req, res) => {};
 
 //  from admin panel
-const allOrders = async (req, res) => {};
+const allOrders = async (req, res) => {
 
-const userOrder = async (req, res) => {};
+};
+
+const userOrder = async (req, res) => {
+  try {
+    const {userId} = req.body
+    const orders = orderModel.findById(userId)
+    
+  } catch (error) {
+    
+  }
+};
 const updateStatus = async (req, res) => {};
 
 export {
