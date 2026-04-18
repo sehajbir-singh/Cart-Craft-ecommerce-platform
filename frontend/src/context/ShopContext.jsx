@@ -24,7 +24,7 @@ const ShopContextProvider = (props) => {
       return;
     }
 
-    console.log(cartItems)
+    // console.log(cartItems)
 
     let cartData = structuredClone(cartItems);
 
@@ -115,7 +115,7 @@ const ShopContextProvider = (props) => {
       // console.log("backendurl= " + backendUrl)
 
       const res = await axios.get(`${backendUrl}/api/product/list`);
-      console.log(res.data);
+      // console.log(res.data);
 
       if (res.data.success) {
         setProducts(res.data.products);
