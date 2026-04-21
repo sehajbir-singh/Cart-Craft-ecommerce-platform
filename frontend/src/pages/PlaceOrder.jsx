@@ -45,7 +45,7 @@ const PlaceOrder = () => {
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
-    console.log("Clicked")
+    console.log("Clicked");
 
     try {
       let orderItems = [];
@@ -68,7 +68,6 @@ const PlaceOrder = () => {
 
       switch (method) {
         case "cod":
-
           const response = await axios.post(
             backendUrl + "/api/order/place",
             {
@@ -89,7 +88,7 @@ const PlaceOrder = () => {
           break;
 
         case "stripe":
-          console.log("under stripe")
+          console.log("under stripe");
 
           const responseStripe = await axios.post(
             backendUrl + "/api/order/stripe",
@@ -98,18 +97,40 @@ const PlaceOrder = () => {
               amount: getCartAmount() + delivery_fee,
               address: formData,
             },
-            { headers: { token } }
+            { headers: { token } },
           );
 
-          if(responseStripe.data.success){
-            console.log("under success")
+          if (responseStripe.data.success) {
+            console.log("under success");
 
-            const { session_url } = responseStripe.data
-            window.location.replace(session_url)
-
-          }else{
-            toast.error(responseStripe.data.message)
+            const { session_url } = responseStripe.data;
+            window.location.replace(session_url);
+          } else {
+            toast.error(responseStripe.data.message);
           }
+
+          break;
+
+        case "razorpay":
+          console.log("under razorpay");
+
+          const responserazor = await axios.post(
+            backendUrl + "/api/order/razorpay",
+            {
+              items: orderItems,
+              amount: getCartAmount() + delivery_fee,
+              address: formData,
+            },
+            { headers: { token } },
+          );
+
+          if(responserazor.data.success){
+            console.log(responserazor.data.order)
+          }
+
+          break;
+
+
       }
     } catch (error) {
       console.log(error);
