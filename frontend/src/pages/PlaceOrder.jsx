@@ -45,6 +45,7 @@ const PlaceOrder = () => {
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
+    console.log("Clicked")
 
     try {
       let orderItems = [];
@@ -67,6 +68,7 @@ const PlaceOrder = () => {
 
       switch (method) {
         case "cod":
+
           const response = await axios.post(
             backendUrl + "/api/order/place",
             {
@@ -86,6 +88,28 @@ const PlaceOrder = () => {
           }
           break;
 
+        case "stripe":
+          console.log("under stripe")
+
+          const responseStripe = await axios.post(
+            backendUrl + "/api/order/stripe",
+            {
+              items: orderItems,
+              amount: getCartAmount() + delivery_fee,
+              address: formData,
+            },
+            { headers: { token } }
+          );
+
+          if(responseStripe.data.success){
+            console.log("under success")
+
+            const { session_url } = responseStripe.data
+            window.location.replace(session_url)
+
+          }else{
+            toast.error(responseStripe.data.message)
+          }
       }
     } catch (error) {
       console.log(error);
@@ -117,7 +141,7 @@ const PlaceOrder = () => {
     if (!phone.trim()) return toast.error("Please enter Phone Number");
     if (!method) return toast.error("Please select a payment method");
 
-    navigate("/orders");
+    // navigate("/orders");
   };
 
   return (
@@ -261,7 +285,7 @@ const PlaceOrder = () => {
           <div className="w-full text-end mt-8">
             <button
               onClick={handlePlaceOrder}
-              className="bg-black text-white px-16 py-3"
+              className="bg-black text-white px-16 py-3 cursor-pointer"
               type="button"
             >
               PLACE ORDER

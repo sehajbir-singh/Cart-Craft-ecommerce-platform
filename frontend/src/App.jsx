@@ -14,6 +14,7 @@ import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast,  Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import VerifyStripe from "./pages/verifyStripe";
 
 
 
@@ -38,6 +39,7 @@ const App = () => {
         <Navbar />
         <SearchBar />
         <Routes>
+          
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/collection" element={<Collection />} />
@@ -47,6 +49,8 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/place-order" element={<PlaceOrder />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/verify" element={<VerifyStripe />} />
+
         </Routes>
         <Footer />
       </div>
