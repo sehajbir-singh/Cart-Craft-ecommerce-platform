@@ -8,6 +8,7 @@ import assets from "../assets/assets";
 
 const Orders = ({ token }) => {
   const [orders, setOrders] = useState([]);
+  // const [status, setStatus] = useState('')
 
   const fetchOrders = async () => {
     if (!token) {
@@ -24,19 +25,56 @@ const Orders = ({ token }) => {
       let orders = [];
 
       if (res.data.success) {
+
         setOrders(res.data.orders);
+
       } else {
+
         toast.error(res.data.message);
+
       }
     } catch (error) {
+
       console.log(error);
       toast.error(error.message);
+
     }
   };
+
+  const statusHandler = async (event, orderId)=>{
+    if (!token) {
+      return null;
+    }
+
+    try {
+
+      const res = await axios.post(backendUrl + '/api/order/status', {orderId, status:event.target.value}, {headers:{token}})
+      console.log(res.data)
+
+      if(res.data.success){
+
+        await fetchOrders()
+        toast.success(res.data.message)
+
+      }else{
+
+        toast.error(res.data.message)
+
+      }
+      
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message)
+    }
+    
+
+  }
 
   useEffect(() => {
     fetchOrders();
   }, []);
+
+
 
   return (
     <div>
@@ -99,7 +137,7 @@ const Orders = ({ token }) => {
               {order.amount}
             </p>
 
-            <select value={order.status} className="p-2 font-semibold" name="" id="">
+            <select value={order.status} onChange={(event)=>{statusHandler(event, order._id)} } className="p-2 font-semibold" name="" id="">
               <option value="Order Placed">Order Placed</option>
               <option value="Packing">Packing</option>
               <option value="Shipped">Shipped</option>
