@@ -6,7 +6,7 @@ const authUser = (req, res, next) =>{
     const {token} = req.headers;
 
     if(!token){
-        res.json({success:false, message:"Not authorized login again."})
+       return res.json({success:false, message:"Not authorized login again."})
        
     }
 
