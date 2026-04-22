@@ -1,4 +1,4 @@
-import { placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrder, updateStatus, verifyStripe } from "../controllers/orderController.js";
+import { placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrder, updateStatus, verifyStripe, VerifyRazorpay } from "../controllers/orderController.js";
 import express from 'express'
 import adminAuth from "../middleware/adminAuth.js";
 import authUser from "../middleware/auth.js";
@@ -12,6 +12,7 @@ orderRouter.post('/stripe', authUser, placeOrderStripe)
 orderRouter.post('/razorpay', authUser, placeOrderRazorpay)
 orderRouter.post('/userorders', authUser, userOrder)
 
+orderRouter.post('/verifyrazorpay', authUser, VerifyRazorpay)
 // stripe verification route
 orderRouter.post('/verify', authUser, verifyStripe)
 

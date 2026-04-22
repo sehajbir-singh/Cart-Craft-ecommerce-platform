@@ -9,7 +9,6 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-
 const currency = "inr";
 const delivery_fee = 10;
 
@@ -116,7 +115,6 @@ const verifyStripe = async (req, res) => {
 
 const placeOrderRazorpay = async (req, res) => {
   try {
-    
     const { userId, items, amount, address } = req.body;
 
     const orderData = {
@@ -132,22 +130,41 @@ const placeOrderRazorpay = async (req, res) => {
     const newOrder = orderModel(orderData);
     await newOrder.save();
 
-
     const options = {
       amount: amount * 100, // subunits, e.g. ₹499 -> 49900
       currency: currency.toUpperCase(),
-      receipt:newOrder._id,
+      receipt: newOrder._id,
     };
 
-    const order = await razorpay.orders.create(options, (error, order)=>{
-      if(error){
-        console.log(error)
-        return res.json({success:false, message:error})
+    const order = await razorpay.orders.create(options, (error, order) => {
+      if (error) {
+        console.log(error);
+        return res.json({ success: false, message: error });
       }
-      res.json({success:true, order})
-
+      res.json({ success: true, order });
     });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+const VerifyRazorpay = async (req, res) => {
+  try {
+    const { userId, razorpay_order_id } = req.body;
+
+    const orderInfo = await razorpay.orders.fetch(razorpay_order_id);
+    console.log(orderInfo);
     
+    if (orderInfo.status === "paid") {
+
+      await orderModel.findByIdAndUpdate(orderInfo.receipt, { payment: true });
+      await userModel.findByIdAndUpdate(userId, { cartData: {} });
+
+      res.json({ success: true, message: "Payment Successful." });
+    } else {
+      res.json({ success: false, message: "Payment Failed." });
+    }
 
   } catch (error) {
     console.log(error);
@@ -197,4 +214,5 @@ export {
   userOrder,
   updateStatus,
   verifyStripe,
+  VerifyRazorpay,
 };
