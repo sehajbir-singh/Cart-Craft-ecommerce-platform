@@ -1,57 +1,48 @@
-import React from 'react'
-import { useContext } from 'react'
-import { ShopContext } from '../context/ShopContext'
-import { useSearchParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import axios from 'axios'
-import { toast } from 'react-toastify'
+import React from "react";
+import { useContext } from "react";
+import { ShopContext } from "../context/ShopContext";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const VerifyStripe = () => {
+  const { navigate, token, setCartItems, backendUrl } = useContext(ShopContext);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-    const {userId, navigate, token, setCartItems, backendUrl} = useContext(ShopContext)
-    const [searchParams, setSearchParams] = useSearchParams()
+  const success = searchParams.get("success");
+  const orderId = searchParams.get("orderId");
 
-    const success = searchParams.get('success')
-    const orderId = searchParams.get('orderId')
+  const verifyPayment = async () => {
+    try {
+      if (!token) {
+        return null;
+      }
 
-    const verifyPayment = async () =>{
+      const res = await axios.post(
+        backendUrl + "/api/order/verify",
+        { success, orderId },
+        { headers: { token } },
+      );
+      if (res.data.success) {
+        setCartItems({});
+        navigate("/orders");
+      } else {
+        navigate("/cart");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
-       try {
-         if(!token){
-            return null
-        }
+  useEffect(() => {
+    if (success && orderId) {
+      verifyPayment();
+    }
+  }, [success, orderId,token]);
 
-        const res = await axios.post(backendUrl + '/api/order/verify', {success, orderId, userId}, {headers:{token}})
-        if(res.data.success){
+  return <div></div>;
+};
 
-            setCartItems({})
-            navigate('/orders')
-
-        }else{
-            navigate('/cart')
-        }
-
-       } catch (error) {
-
-        console.log(error)
-        toast.error(error.message)
-        
-       }
-
-    } 
-
-    useEffect(() => {
-
-      verifyPayment()
-
-    }, [token])
-    
-
-  return (
-    <div>
-      
-    </div>
-  )
-}
-
-export default VerifyStripe
+export default VerifyStripe;
