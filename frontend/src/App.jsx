@@ -16,9 +16,6 @@ import { ToastContainer, toast,  Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerifyStripe from "./pages/verifyStripe";
 
-
-
-
 const App = () => {
   return (
     <>
