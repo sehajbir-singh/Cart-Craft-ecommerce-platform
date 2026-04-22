@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 
 const VerifyStripe = () => {
 
-    const {navigate, token, setCartItems, backendUrl} = useContext(ShopContext)
+    const {userId, navigate, token, setCartItems, backendUrl} = useContext(ShopContext)
     const [searchParams, setSearchParams] = useSearchParams()
 
     const success = searchParams.get('success')
@@ -21,7 +21,7 @@ const VerifyStripe = () => {
             return null
         }
 
-        const res = await axios.post(backendUrl + '/api/order/verify', {success, orderId}, {headers:{token}})
+        const res = await axios.post(backendUrl + '/api/order/verify', {success, orderId, userId}, {headers:{token}})
         if(res.data.success){
 
             setCartItems({})
