@@ -43,6 +43,56 @@ const PlaceOrder = () => {
     }));
   };
 
+  const initPay = async (order) =>{
+    console.log(order.amount)
+    const options = {
+
+
+      key:import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: order.amount,
+      currency:order.currency,
+      name:'Order payment',
+      description:'Order Payment',
+      order_id: order.id,
+      receipt:order.receipt,
+      handler: async (response) =>{
+
+        console.log(response)
+
+        try {
+          const { data } =  await axios.post(backendUrl + '/api/order/verifyrazorpay', response, {headers:{token}})
+          console.log("Inside handler of initpay")
+          console.log(data)
+
+          if(data.success){
+            navigate('/orders')
+            setCartItems({})
+            toast.success(data.message)
+          }else{
+            navigate('/cart')
+
+            toast.error(data.message + " Again checkout in cart.")
+          }
+
+        } catch (error) {
+          console.log(error)
+          toast.error(error.message)
+          
+        }
+        // const {razorpay_order_id} = response;
+
+        // const res = await axios.post(backendUrl + '/api/order/verifyrazorpay', {receipt, razorpay_order_id}, {headers:{token}})
+        // console.log(res)
+
+      }
+
+    }
+
+    const rzp = new window.Razorpay(options)
+    rzp.open()
+
+  }
+
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
     console.log("Clicked");
@@ -125,7 +175,7 @@ const PlaceOrder = () => {
           );
 
           if(responserazor.data.success){
-            console.log(responserazor.data.order)
+            initPay(responserazor.data.order)
           }
 
           break;

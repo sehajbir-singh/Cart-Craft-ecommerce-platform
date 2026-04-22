@@ -18,6 +18,7 @@ import VerifyStripe from "./pages/verifyStripe";
 
 
 
+
 const App = () => {
   return (
     <>
@@ -50,6 +51,8 @@ const App = () => {
           <Route path="/place-order" element={<PlaceOrder />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/verify" element={<VerifyStripe />} />
+          {/* <Route path="/verifyrazorpay" element={<VerifyRazorPay />} /> */}
+          
 
         </Routes>
         <Footer />
