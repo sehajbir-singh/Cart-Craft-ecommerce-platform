@@ -1,6 +1,7 @@
 import React from 'react'
-import { assets } from '../assets/assets'
+import { assets } from '../assets/assets.js'
 const Hero = () => {
+
   return (
     <div className="flex flex-col sm:flex-row border border-gray-400">
       {/* Hero left side */}
