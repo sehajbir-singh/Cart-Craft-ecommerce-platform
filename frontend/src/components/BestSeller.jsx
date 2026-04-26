@@ -3,9 +3,19 @@ import { ShopContext } from '../context/ShopContext'
 import Title from './Title';
 import ProductItem from './ProductItem';
 
+const SkeletonCard = () => {
+  return (
+    <div className="animate-pulse">
+      <div className="bg-gray-200 aspect-[3/4] rounded-lg mb-2"></div>
+      <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+    </div>
+  );
+};
+
 const BestSeller = () => {
 
-    const {products} = useContext(ShopContext);
+    const {products, productsLoading} = useContext(ShopContext);
     const [bestSeller, setBestSeller] = useState([]);
 
     useEffect(() => {
@@ -24,7 +34,11 @@ const BestSeller = () => {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-        {bestSeller.map((item, index) => (
+        {productsLoading
+            ? Array.from({ length: 8 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))
+            : bestSeller.map((item, index) => (
           <ProductItem key={index} name={item.name} id={item._id} image={item.image} price={item.price}/>
         ))}
       </div>
