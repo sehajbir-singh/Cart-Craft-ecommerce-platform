@@ -15,7 +15,7 @@ import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast,  Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerifyStripe from "./pages/VerifyStripe";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 const App = () => {
   return (
