@@ -15,7 +15,7 @@ import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast,  Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerifyStripe from "./pages/VerifyStripe";
-import { Analytics } from "@vercel/analytics/react"
+
 
 const App = () => {
   return (
@@ -50,7 +50,6 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/verify" element={<VerifyStripe />} />
           {/* <Route path="/verifyrazorpay" element={<VerifyRazorPay />} /> */}
-          <Analytics />
           
 
         </Routes>
