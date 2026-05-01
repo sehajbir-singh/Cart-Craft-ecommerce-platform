@@ -5,15 +5,26 @@ import axios from 'axios'
 const ForgotPassword = () => {
 
     const [email, setEmail] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) =>{
-        e.preventDefault();
+       try {
+         e.preventDefault();
+         setLoading(true)
+        
 
         await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/forgot-password`, {
             email
         })
 
         toast.success("If that email exists, we sent a Reset Link.")
+        
+       } catch (error) {
+        toast.error(error.message)
+        
+       }finally{
+        setLoading(false)
+       }
 
 
     }
@@ -25,7 +36,7 @@ const ForgotPassword = () => {
         <form action="" onSubmit={handleSubmit} className='space-y-4 flex flex-col justify-center'>
            <input type="email" className='border-1 w-full p-2 rounded' name="" id="" value={email} onChange={(e)=>{setEmail(e.target.value)}} required/>
 
-            <button className='bg-black mx-auto text-white px-4 py-2 rounded cursor-pointer'>Send Reset Link</button>
+            <button className='bg-black mx-auto text-white px-4 py-2 rounded cursor-pointer'>{loading? "Sending...": "Send Reset Link"}</button>
             
 
             </form>      
