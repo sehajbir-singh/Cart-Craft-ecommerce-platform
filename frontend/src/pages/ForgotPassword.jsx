@@ -1,47 +1,58 @@
-import React, {useState} from 'react'
-import { toast } from 'react-toastify'
-import axios from 'axios'
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const [email, setEmail] = useState("")
-    const [loading, setLoading] = useState(false)
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
 
-    const handleSubmit = async (e) =>{
-       try {
-         e.preventDefault();
-         setLoading(true)
-        
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/forgot-password`,
+        {
+          email,
+        },
+      );
 
-        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/forgot-password`, {
-            email
-        })
-
-        toast.success("If that email exists, we sent a Reset Link.")
-        
-       } catch (error) {
-        toast.error(error.message)
-        
-       }finally{
-        setLoading(false)
-       }
-
-
+      toast.success("If that email exists, we sent a Reset Link.");
+      
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
+  };
 
   return (
-    <div className='max-w-md mx-auto p-6 border rounded-lg'>
-        <h2 className='text-xl font-semibold mb-4' >Forgot Password</h2>
-        <form action="" onSubmit={handleSubmit} className='space-y-4 flex flex-col justify-center'>
-           <input type="email" className='border-1 w-full p-2 rounded' name="" id="" value={email} onChange={(e)=>{setEmail(e.target.value)}} required/>
+    <div className="max-w-md mx-auto p-6 border rounded-lg">
+      <h2 className="text-xl font-semibold mb-4">Forgot Password</h2>
+      <form
+        action=""
+        onSubmit={handleSubmit}
+        className="space-y-4 flex flex-col justify-center"
+      >
+        <input
+          type="email"
+          className="border-1 w-full p-2 rounded"
+          name=""
+          id=""
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          required
+        />
 
-            <button className='bg-black mx-auto text-white px-4 py-2 rounded cursor-pointer'>{loading? "Sending...": "Send Reset Link"}</button>
-            
-
-            </form>      
+        <button className="bg-black mx-auto text-white px-4 py-2 rounded cursor-pointer">
+          {loading ? "Sending..." : "Send Reset Link"}
+        </button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default ForgotPassword
+export default ForgotPassword;

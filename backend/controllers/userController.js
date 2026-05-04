@@ -94,6 +94,7 @@ const adminLogin = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   try {
+    console.log("forgot password hit")
     const { email } = req.body;
     const genericMessage = {
       success: true,
@@ -102,9 +103,9 @@ const forgotPassword = async (req, res) => {
 
     const user = await userModel.findOne({ email });
     if (!user)
-      return res.json({
+      return res.status(404).json({
         success: false,
-        messgae: "User email don't exist.",
+        message: "User email don't exist.",
       });
 
     const resetToken = crypto.randomBytes(32).toString("hex");
