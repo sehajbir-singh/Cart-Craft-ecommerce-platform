@@ -5,6 +5,7 @@ import userModel from "../models/userModel.js";
 import transporter from "../config/mailer.js";
 import crypto from "node:crypto";
 
+
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
