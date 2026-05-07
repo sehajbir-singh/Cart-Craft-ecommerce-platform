@@ -9,14 +9,14 @@ import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import About from "./pages/About";
 import PlaceOrder from "./pages/PlaceOrder";
-import ForgotPassword from "./pages/ForgotPassword";
+// import ForgotPassword from "./pages/ForgotPassword";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast,  Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerifyStripe from "./pages/VerifyStripe";
-import ResetPassword from "./pages/ResetPassword";
+// import ResetPassword from "./pages/ResetPassword"
 
 
 const App = () => {
@@ -51,8 +51,8 @@ const App = () => {
           <Route path="/place-order" element={<PlaceOrder />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/verify" element={<VerifyStripe />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          {/* <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} /> */}
 
 
           {/* <Route path="/verifyrazorpay" element={<VerifyRazorPay />} /> */}
