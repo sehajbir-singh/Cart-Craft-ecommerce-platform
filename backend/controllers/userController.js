@@ -92,90 +92,90 @@ const adminLogin = async (req, res) => {
   }
 };
 
-const forgotPassword = async (req, res) => {
-  try {
-    console.log("forgot password hit")
-    const { email } = req.body;
-    const genericMessage = {
-      success: true,
-      message: "If that email exists, we sent a reset link.",
-    };
+// const forgotPassword = async (req, res) => {
+//   try {
+//     console.log("forgot password hit")
+//     const { email } = req.body;
+//     const genericMessage = {
+//       success: true,
+//       message: "If that email exists, we sent a reset link.",
+//     };
 
-    const user = await userModel.findOne({ email });
-    if (!user)
-      return res.status(404).json({
-        success: false,
-        message: "User email don't exist.",
-      });
+//     const user = await userModel.findOne({ email });
+//     if (!user)
+//       return res.status(404).json({
+//         success: false,
+//         message: "User email don't exist.",
+//       });
 
-    const resetToken = crypto.randomBytes(32).toString("hex");
+//     const resetToken = crypto.randomBytes(32).toString("hex");
 
-    const resetTokenhash = crypto
-      .createHash("sha256")
-      .update(resetToken)
-      .digest("hex");
+//     const resetTokenhash = crypto
+//       .createHash("sha256")
+//       .update(resetToken)
+//       .digest("hex");
 
-    user.resetPasswordToken = resetTokenhash;
-    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+//     user.resetPasswordToken = resetTokenhash;
+//     user.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
-    await user.save();
+//     await user.save();
 
-    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
+//     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
 
-    await transporter.sendMail({
-      from: process.env.MAIL_USER,
-      to: email,
-      subject: "Reset Your Password",
-      html: `<p>You requested a password reset.</p>
-        <p>Click this link to reset your password:</p>
-        <a style="display:inline-block; background-color:#000000; color:#ffffff; padding:12px 20px; text-decoration:none;  border-radius:8px; font-weight:600; margin:12px 0;" href="${resetUrl}">Reset Password</a>
-        <p>This link expires in 15 minutes.</p>`,
-    });
+//     await transporter.sendMail({
+//       from: process.env.MAIL_USER,
+//       to: email,
+//       subject: "Reset Your Password",
+//       html: `<p>You requested a password reset.</p>
+//         <p>Click this link to reset your password:</p>
+//         <a style="display:inline-block; background-color:#000000; color:#ffffff; padding:12px 20px; text-decoration:none;  border-radius:8px; font-weight:600; margin:12px 0;" href="${resetUrl}">Reset Password</a>
+//         <p>This link expires in 15 minutes.</p>`,
+//     });
 
-    return res.json(genericMessage);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
-};
+//     return res.json(genericMessage);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ success: false, message: "Server error" });
+//   }
+// };
 
-const resetPassword = async (req, res) => {
-  try {
-    const { email, token, newPassword } = req.body;
+// const resetPassword = async (req, res) => {
+//   try {
+//     const { email, token, newPassword } = req.body;
 
-    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+//     const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
 
-    const user = await userModel.findOne({
-      email,
-      resetPasswordToken: tokenHash,
-      resetPasswordExpire: { $gt: Date.now() },
-    });
+//     const user = await userModel.findOne({
+//       email,
+//       resetPasswordToken: tokenHash,
+//       resetPasswordExpire: { $gt: Date.now() },
+//     });
 
-    if (!user) {
-      res.status(400).json({
-        success: false,
-        message: "Invalid or expired token.",
-      });
-    }
+//     if (!user) {
+//       res.status(400).json({
+//         success: false,
+//         message: "Invalid or expired token.",
+//       });
+//     }
 
-    user.password = await bcrypt.hash(newPassword, 10);
+//     user.password = await bcrypt.hash(newPassword, 10);
 
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
+//     user.resetPasswordToken = undefined;
+//     user.resetPasswordExpire = undefined;
 
-    await user.save();
+//     await user.save();
 
-    return res.json({
-      success: true,
-      message: "Password Reset successful",
-    });
+//     return res.json({
+//       success: true,
+//       message: "Password Reset successful",
+//     });
 
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ success: false, message: error.message });
-  }
-};
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ success: false, message: error.message });
+//   }
+// };
 
 
 
-export { loginUser, registerUser, adminLogin, forgotPassword, resetPassword };
+export { loginUser, registerUser, adminLogin };
