@@ -54,7 +54,7 @@ const Navbar = () => {
           href="https://cart-craft-admin-iota.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-col items-center gap-1"
+          className="flex flex-col items-center gap-1 text-gray-600 text-sm font-serif border-2 rounded-2xl p-2"
         >
           <p>ADMIN PANEL</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
